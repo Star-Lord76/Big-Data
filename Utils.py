@@ -1,3 +1,6 @@
+import pickle
+
+
 def createObjectPickleSnapshot(objectToSnapshot: any, path: str) -> bool:
     """
     The function `createObjectPickleSnapshot` takes an object and a file path as input, then saves a snapshot

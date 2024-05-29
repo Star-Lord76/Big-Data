@@ -1,5 +1,4 @@
 from selenium.webdriver.remote.webelement import WebElement
-import pickle
 
 
 def getHrefLinks(webElementsList: list[WebElement]) -> set[str]:
