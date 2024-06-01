@@ -112,15 +112,21 @@ def getAllHrefForArgument(driver: webdriver.Chrome, link: str, numeroPagine: int
 
 def getTextFromArticle(driver: webdriver.Chrome, link: str) -> str:
     """
-    This Python function uses Selenium to extract text content from a specified article link and then
-    processes the text to return a tuple containing questions and answers.
+    The function `getTextFromArticle` uses Selenium to extract text content from a webpage given a link,
+    handling cookie acceptance and timeouts.
 
+    :param driver: The `driver` parameter is an instance of the `webdriver.Chrome` class, which is used
+    for controlling the Chrome web browser during automated testing or web scraping tasks
+    :type driver: webdriver.Chrome
     :param link: The `link` parameter in the `getTextFromArticle` function is a string that represents
-    the URL of the article from which you want to extract text
+    the URL of the article from which you want to extract text. This function uses a Selenium WebDriver
+    instance (`driver`) to navigate to the provided link and extract text from a specific element on the
+    page
     :type link: str
-    :return: The function `getTextFromArticle` returns a tuple containing a single string element, which
-    is the result of calling the `getQandA` function on the text content of the article element located
-    by its class name 'txtArticolo'.
+    :return: The function `getTextFromArticle` returns the text content of the element with the ID
+    'question' on the webpage specified by the input link. If the question element is empty or not
+    found, it will print a message indicating that the question is empty. If there is a timeout waiting
+    for the page to load, it will print a message indicating that the page load timed out.
     """
     driver.get(link)
     try:
@@ -143,3 +149,19 @@ def getTextFromArticle(driver: webdriver.Chrome, link: str) -> str:
     except:
         print("Timed out waiting for page to load")
         return
+
+
+def printTofile(filename: str, content: str) -> None:
+    """
+    The function `printTofile` writes the specified content to a file with the given filename.
+
+    :param filename: The `filename` parameter is a string that represents the name of the file to which
+    you want to write the content
+    :type filename: str
+    :param content: The `content` parameter in the `printTofile` function is a string that represents
+    the text content that you want to write to a file. When you call the `printTofile` function, you
+    pass the text content that you want to write to the file as the `content` parameter
+    :type content: str
+    """
+    with open(filename, 'w') as f:
+        f.write(content)
