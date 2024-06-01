@@ -18,10 +18,7 @@ def getHrefLinks(webElementsList: list[WebElement]) -> set[str]:
     """
     returnSet = set()
     for webElement in webElementsList:
-        title = webElement.get_attribute("title")
-        numRisposte = title.split(" ")[-2]
-        if (int(numRisposte) < 4):
-            returnSet.add(webElement.get_attribute("href"))
+        returnSet.add(webElement.get_attribute("href"))
     return returnSet
 
 
