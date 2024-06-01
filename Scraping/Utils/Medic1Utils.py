@@ -149,19 +149,3 @@ def getTextFromArticle(driver: webdriver.Chrome, link: str) -> str:
     except:
         print("Timed out waiting for page to load")
         return
-
-
-def printTofile(filename: str, content: str) -> None:
-    """
-    The function `printTofile` writes the specified content to a file with the given filename.
-
-    :param filename: The `filename` parameter is a string that represents the name of the file to which
-    you want to write the content
-    :type filename: str
-    :param content: The `content` parameter in the `printTofile` function is a string that represents
-    the text content that you want to write to a file. When you call the `printTofile` function, you
-    pass the text content that you want to write to the file as the `content` parameter
-    :type content: str
-    """
-    with open(filename, 'w') as f:
-        f.write(content)
