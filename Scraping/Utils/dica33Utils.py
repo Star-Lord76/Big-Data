@@ -106,3 +106,33 @@ def getTextFromArticle(driver: webdriver.Chrome, link: str) -> tuple[tuple]:
         typeRisposta = "FROM_CONTENT"
 
     return [[domanda, typeDomanda], [espertoRisposta, typeRisposta]]
+
+
+def cleanRispostaFromContent(input: str) -> str:
+    pass
+
+
+def cleanRispostaFromText(input: str) -> str:
+    splittedInput = input.split("\n")
+    return splittedInput[5]
+
+
+def cleanDomandaFromContent(input: str) -> tuple[str]:
+    pass
+
+
+def cleanDomandaFromText(input: str) -> tuple[str]:
+    """
+    This Python function extracts and returns specific lines from a given input text.
+
+    :param input: A string with new line character
+    :type input: str
+    :return: A tuple containing two strings: the 5th and 6th lines of the input text after splitting it
+    by newline characters.
+    """
+    splittedInput = input.split("\n")
+    return (splittedInput[4], splittedInput[5])
+
+
+def printToFile(title: str, domanda: str, risposta: str) -> None:
+    pass

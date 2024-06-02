@@ -1,4 +1,5 @@
 import pickle
+import re
 
 
 def createObjectPickleSnapshot(objectToSnapshot: any, path: str) -> bool:
@@ -39,3 +40,34 @@ def loadObjectPickleSnapshot(path: str) -> any:
     with open(path, 'rb') as f:
         pickleLinkObject = pickle.load(f)
     return pickleLinkObject
+
+
+def checkDateTimeFormat(date_time_string: str) -> bool:
+    """
+    The function `checkDateTimeFormat` checks if a given date and time string follows the format
+    "dd.mm.yyyy hh:mm".
+
+    :param date_time_string: The function `checkDateTimeFormat` is designed to check if a given
+    `date_time_string` follows a specific format. The format pattern specified in the function is
+    `dd.mm.yyyy hh:mm`, where:
+    :return: The function `checkDateTimeFormat` is returning a boolean value. It returns `True` if the
+    `date_time_string` matches the specified date and time format pattern, and `False` otherwise.
+    """
+    pattern = r"\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.\d{4} ([01][0-9]|2[0-3]):[0-5][0-9]\b"
+    match = re.match(pattern, date_time_string)
+    return match is not None
+
+
+def stripAndJoin(lst: list[str]) -> str:
+    """
+    The function `stripAndJoin` takes a list of strings, removes leading and trailing whitespaces from
+    each string, filters out empty strings, and then joins the cleaned strings with newline characters.
+
+    :param lst: A list of strings that may contain leading or trailing whitespaces
+    :type lst: list[str]
+    :return: The function `stripAndJoin` takes a list of strings as input, strips any leading or
+    trailing whitespace from each string, removes any empty strings, and then joins the remaining
+    strings with a newline character ("\n"). The function returns a single string that is the result of
+    joining the stripped strings with newline characters.
+    """
+    return "\n".join(s.strip() for s in lst if s != "")

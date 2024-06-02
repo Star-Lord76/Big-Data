@@ -1,4 +1,3 @@
-import re
 from selenium.webdriver.remote.webelement import WebElement
 from selenium import webdriver
 from tqdm.notebook import tqdm
@@ -20,22 +19,6 @@ def getHrefLinks(webElementsList: list[WebElement]) -> set[str]:
     for webElement in webElementsList:
         returnSet.add(webElement.get_attribute("href"))
     return returnSet
-
-
-def checkDateTimeFormat(date_time_string: str) -> bool:
-    """
-    The function `checkDateTimeFormat` checks if a given date and time string follows the format
-    "dd.mm.yyyy hh:mm".
-
-    :param date_time_string: The function `checkDateTimeFormat` is designed to check if a given
-    `date_time_string` follows a specific format. The format pattern specified in the function is
-    `dd.mm.yyyy hh:mm`, where:
-    :return: The function `checkDateTimeFormat` is returning a boolean value. It returns `True` if the
-    `date_time_string` matches the specified date and time format pattern, and `False` otherwise.
-    """
-    pattern = r"\b(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.\d{4} ([01][0-9]|2[0-3]):[0-5][0-9]\b"
-    match = re.match(pattern, date_time_string)
-    return match is not None
 
 
 def divideInPosts(lst: list, startString: str) -> list:
@@ -66,10 +49,6 @@ def divideInPosts(lst: list, startString: str) -> list:
 
 def isPostFromDoctor(post: list[str]) -> bool:
     return any(title in post[1].lower() for title in ["dr", "dott", "dottore", "dottoressa", "drs"])
-
-
-def stripAndJoin(lst: list[str]) -> str:
-    return "\n".join(s.strip() for s in lst if s != "")
 
 
 def getAllHrefForArgument(driver: webdriver.Chrome, link: str, numeroPagine: int) -> set[str]:
