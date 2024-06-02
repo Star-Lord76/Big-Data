@@ -4,6 +4,8 @@ from tqdm.notebook import tqdm
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import re
+import time
 
 
 def getHrefLinks(webElementsList: list[WebElement]) -> set[str]:
@@ -109,16 +111,72 @@ def getTextFromArticle(driver: webdriver.Chrome, link: str) -> tuple[tuple]:
 
 
 def cleanRispostaFromContent(input: str) -> str:
-    pass
+    """
+    The function `cleanRispostaFromContent` extracts and returns the content following the first
+    occurrence of an all-uppercase word in the input string.
+
+    :param input: The function `cleanRispostaFromContent` takes a string input and attempts to remove
+    any leading uppercase words from the input string. If there are one or more consecutive uppercase
+    words at the beginning of the input string, it will return the remaining content after those words.
+    If there are no uppercase words
+    :type input: str
+    :return: The function `cleanRispostaFromContent` takes a string input and searches for a sequence of
+    one or more uppercase letters at a word boundary. If such a sequence is found, it returns the
+    substring of the input starting from the end of the matched sequence and stripped of leading and
+    trailing whitespaces. If no match is found, it returns the original input string.
+    """
+    match = re.search(r'\b[A-Z]+\b', input)
+
+    if match:
+        return input[match.end():].strip()
+    else:
+        return input
 
 
 def cleanRispostaFromText(input: str) -> str:
+    """
+    This Python function takes a string input, splits it by newline characters, and returns the 6th
+    element (index 5) from the resulting list.
+
+    :param input: I see that you have a function `cleanRispostaFromText` that takes a string input and
+    splits it by newline characters. It then returns the 6th element (index 5) from the resulting list
+    :type input: str
+    :return: The function `cleanRispostaFromText` takes a string input, splits it by newline characters,
+    and then returns the 6th element (index 5) from the resulting list.
+    """
     splittedInput = input.split("\n")
     return splittedInput[5]
 
 
 def cleanDomandaFromContent(input: str) -> tuple[str]:
-    pass
+    """
+    The function `cleanDomandaFromContent` extracts and cleans a specific portion of text related to
+    questions from a given input string.
+
+    :param input: The `cleanDomandaFromContent` function takes a string input and processes it to
+    extract relevant information. It looks for a specific pattern in the input string related to dates
+    and capital letters to split the content into two parts
+    :type input: str
+    :return: The function `cleanDomandaFromContent` returns a tuple of two strings. The first string is
+    the content before the second capital letter that appears after a date in the input string. The
+    second string is the content after the second capital letter that appears after a date in the input
+    string.
+    """
+    firstPass = input.split("Domande")[1].split("Risposta")[0]
+    match = re.search(
+        r'\d{1,2} (gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre) \d{4}', firstPass)
+    secondPass = firstPass[match.end():].strip()
+    capitals = re.finditer(r'[A-Z]', secondPass)
+    try:
+        next(capitals)
+        split_index = next(capitals).start()
+    except StopIteration:
+        split_index = len(secondPass)
+
+    if split_index > 50:
+        return "", secondPass
+
+    return secondPass[:split_index], secondPass[split_index:]
 
 
 def cleanDomandaFromText(input: str) -> tuple[str]:
@@ -135,4 +193,27 @@ def cleanDomandaFromText(input: str) -> tuple[str]:
 
 
 def printToFile(title: str, domanda: str, risposta: str) -> None:
-    pass
+    """
+    This Python function takes a title, question, and answer as input, formats them into a text string,
+    and writes them to a file in a specified directory.
+
+    :param title: The `title` parameter is a string that represents the title or name of the file that
+    will be created. It is used to name the file along with a timestamp to make it unique
+    :type title: str
+    :param domanda: The parameter `domanda` represents the question asked by the user
+    :type domanda: str
+    :param risposta: The parameter `risposta` in the `printToFile` function represents the answer
+    provided by the doctor in response to the user's question.
+    :type risposta: str
+    """
+    basePath = "./Data/"
+    text = ""
+
+    text += "###UTENTE###\n"
+    text += domanda.strip() + "\n\n"
+
+    text += "###DOTTORE###\n"
+    text += risposta.strip() + "\n\n"
+
+    with open(basePath + re.sub(r'(?u)[^-\w.]', '', title) + "_" + str(time.time()) + ".txt", 'w', encoding="utf-16") as f:
+        f.write(text)

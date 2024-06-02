@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 /chrome-win64
 /Scraping/MedicItalia/Data/*
+/Scraping/Dica33/Data
