@@ -162,3 +162,4 @@ cython_debug/
 /Scraping/MedicItalia/Data/*
 /Scraping/Dica33/Data
 /Data
+Data_exclueded/*
