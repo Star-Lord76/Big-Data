@@ -163,3 +163,4 @@ cython_debug/
 /Scraping/Dica33/Data
 /Data
 Data_exclueded/*
+/Data_excluded
