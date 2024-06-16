@@ -176,7 +176,7 @@ def cleanDomandaFromContent(input: str) -> tuple[str]:
     if split_index > 50:
         return "", secondPass
 
-    return secondPass[:split_index], secondPass[split_index:]
+    return secondPass[:split_index], secondPass[split_index:], match.group()
 
 
 def cleanDomandaFromText(input: str) -> tuple[str]:
@@ -188,11 +188,13 @@ def cleanDomandaFromText(input: str) -> tuple[str]:
     :return: A tuple containing two strings: the 5th and 6th lines of the input text after splitting it
     by newline characters.
     """
+    match = re.search(
+        r'\d{1,2} (gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre) \d{4}', input)
     splittedInput = input.split("\n")
-    return (splittedInput[4], splittedInput[5])
+    return (splittedInput[4], splittedInput[5], match.group())
 
 
-def printToFile(title: str, domanda: str, risposta: str) -> None:
+def printToFile(title: str, domanda: str, risposta: str, date: str) -> None:
     """
     This Python function takes a title, question, and answer as input, formats them into a text string,
     and writes them to a file in a specified directory.
@@ -207,7 +209,8 @@ def printToFile(title: str, domanda: str, risposta: str) -> None:
     :type risposta: str
     """
     basePath = "./Data/"
-    text = ""
+    text = "DIRE@@@\n"
+    text += date + "@@@\n"
 
     text += "###UTENTE###\n"
     text += domanda.strip() + "\n\n"
